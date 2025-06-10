@@ -1,6 +1,7 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:myapp/firebase_options.dart';
+import 'package:myapp/theme/theme.dart';
 
 import 'view/admin/admin_home_screen.dart';
 
@@ -19,6 +20,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
+      theme: AppTheme.theme,
       title: "Quiz App",
       home: AdminHomeScreen(),
     );
