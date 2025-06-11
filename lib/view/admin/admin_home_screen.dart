@@ -1,7 +1,12 @@
+import 'dart:ffi';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:myapp/model/category.dart';
 import 'package:myapp/theme/theme.dart';
+
+import 'manage_categories_screen.dart';
+import 'manage_quizes_screen.dart';
 
 class AdminHomeScreen extends StatefulWidget {
   const AdminHomeScreen({super.key});
@@ -221,7 +226,7 @@ class _AdminHomeScreenState extends State<AdminHomeScreen> {
                               ),
                               SizedBox(width: 12),
                               Text(
-                                'Category status',
+                                'Category Statistics',
                                 style: TextStyle(
                                   fontSize: 18,
                                   fontWeight: FontWeight.bold,
@@ -266,11 +271,117 @@ class _AdminHomeScreenState extends State<AdminHomeScreen> {
                                           ),
                                           SizedBox(height: 5),
                                           Text(
-                                            "${category['count']} ${(category['count'] as int) == 1 ? 'quiz' :'quizzes'}",
+                                            "${category['count']} ${(category['count'] as int) == 1 ? 'quiz' : 'quizzes'}",
                                             style: TextStyle(
                                               fontSize: 16,
                                               fontWeight: FontWeight.w500,
-                                              color: AppTheme.textSecondaryColor,
+                                              color:
+                                                  AppTheme.textSecondaryColor,
+                                            ),
+                                          ),
+                                        ],
+                                      ),
+                                    ),
+                                    Container(
+                                      padding: EdgeInsets.symmetric(
+                                        vertical: 6,
+                                        horizontal: 12,
+                                      ),
+                                      decoration: BoxDecoration(
+                                        color: AppTheme.primaryColor
+                                            .withOpacity(0.1),
+                                        borderRadius: BorderRadius.circular(20),
+                                      ),
+                                      child: Text(
+                                        "${percentage.toStringAsFixed(1)}%",
+                                        style: TextStyle(
+                                          color: AppTheme.primaryColor,
+                                          fontSize: 16,
+                                          fontWeight: FontWeight.w500,
+                                        ),
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              );
+                            },
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+                  SizedBox(height: 24),
+                  Card(
+                    child: Padding(
+                      padding: const EdgeInsets.all(20),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Row(
+                            children: [
+                              Icon(
+                                Icons.history_rounded,
+                                color: AppTheme.primaryColor,
+                                size: 24,
+                              ),
+                              SizedBox(width: 12),
+                              Text(
+                                'Recent Activity',
+                                style: TextStyle(
+                                  fontSize: 18,
+                                  fontWeight: FontWeight.bold,
+                                  color: AppTheme.textPrimryColor,
+                                ),
+                              ),
+                            ],
+                          ),
+                          SizedBox(height: 20),
+                          ListView.builder(
+                            shrinkWrap: true,
+                            physics: NeverScrollableScrollPhysics(),
+                            itemCount: latestQuizzes.length,
+                            itemBuilder: (context, index) {
+                              final quiz =
+                                  latestQuizzes[index].data()
+                                      as Map<String, dynamic>;
+
+                              return Padding(
+                                padding: EdgeInsets.only(bottom: 16),
+                                child: Row(
+                                  children: [
+                                    Container(
+                                      padding: EdgeInsets.all(8),
+                                      decoration: BoxDecoration(
+                                        color: AppTheme.primaryColor
+                                            .withOpacity(0.1),
+                                        borderRadius: BorderRadius.circular(8),
+                                      ),
+                                      child: Icon(
+                                        Icons.quiz_rounded,
+                                        color: AppTheme.primaryColor,
+                                        size: 20,
+                                      ),
+                                    ),
+                                    SizedBox(width: 16),
+                                    Expanded(
+                                      child: Column(
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
+                                        children: [
+                                          Text(
+                                            quiz['title'],
+                                            style: TextStyle(
+                                              fontWeight: FontWeight.bold,
+                                              color: AppTheme.textPrimryColor,
+                                            ),
+                                          ),
+                                          SizedBox(height: 4),
+                                          Text(
+                                            'Created on ${_formatDate(quiz['createdAt'].toDate())}',
+                                            style: TextStyle(
+                                              fontSize: 12,
+                                              color:
+                                                  AppTheme.textSecondaryColor,
                                             ),
                                           ),
                                         ],
@@ -280,6 +391,73 @@ class _AdminHomeScreenState extends State<AdminHomeScreen> {
                                 ),
                               );
                             },
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+                  SizedBox(height: 24),
+                  Card(
+                    child: Padding(
+                      padding: const EdgeInsets.all(20),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Row(
+                            children: [
+                              Icon(
+                                Icons.speed_rounded,
+                                color: AppTheme.primaryColor,
+                                size: 24,
+                              ),
+                              SizedBox(width: 12),
+                              Text(
+                                'Quiz Actions',
+                                style: TextStyle(
+                                  fontSize: 18,
+                                  fontWeight: FontWeight.bold,
+                                  color: AppTheme.textPrimryColor,
+                                ),
+                              ),
+                            ],
+                          ),
+                          SizedBox(height: 20),
+                          GridView.count(
+                            crossAxisCount: 2,
+                            shrinkWrap: true,
+                            mainAxisSpacing: 16,
+                            childAspectRatio: 0.9,
+                            crossAxisSpacing: 16,
+                            children: [
+                              _buildDashboardCard(
+                                context,
+                                'Quizzes',
+                                Icons.quiz_rounded,
+                                () {
+                                  Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                      builder:
+                                          (context) => ManageQuizesScreen(),
+                                    ),
+                                  );
+                                },
+                              ),
+                              _buildDashboardCard(
+                                context,
+                                'Categories',
+                                Icons.category_rounded,
+                                () {
+                                  Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                      builder:
+                                          (context) => ManageCategoriesScreen(),
+                                    ),
+                                  );
+                                },
+                              ),
+                            ],
                           ),
                         ],
                       ),
