@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:myapp/model/category.dart';
+import 'package:myapp/view/admin/manage_quizes_screen.dart';
 
 import '../../theme/theme.dart';
 
@@ -17,6 +18,7 @@ class _ManageCategoriesScreenState extends State<ManageCategoriesScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        backgroundColor: AppTheme.backgroundColor,
         title: Text(
           "Manages Categories",
           style: TextStyle(fontWeight: FontWeight.bold),
@@ -148,14 +150,14 @@ class _ManageCategoriesScreenState extends State<ManageCategoriesScreen> {
                     },
                   ),
                   onTap: () {
-                    // Navigator.push(
-                    //   context,
-                    //   MaterialPageRoute(
-                    //     builder:
-                    //         (context) =>
-                    //             QuizListScreen(categoryId: category.id),
-                    //   ),
-                    // );
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder:
+                            (context) =>
+                                ManageQuizesScreen(categoryId: category.id),
+                      ),
+                    );
                   },
                 ),
               );
@@ -183,7 +185,7 @@ class _ManageCategoriesScreenState extends State<ManageCategoriesScreen> {
         context: context,
         builder:
             (context) => AlertDialog(
-              title: Text("Confirm Delete"),
+              title: Text("Delete Category"),
               // Suggested code may be subject to a license. Learn more: ~LicenseLog:2688678861.
               content: Text("Are you sure you want to delete this category?"),
               actions: [
