@@ -1,16 +1,33 @@
-# myapp
+# Quiz App
 
-A new Flutter project.
+A mobile application built using Flutter that allows users to take quizzes on various topics.
 
-## Getting Started
+## Table of Contents
+- [Installation](#installation)
+- [Usage](#usage)
+- [Features](#features)
+- [Contributing](#contributing)
+- [License](#license)
 
-This project is a starting point for a Flutter application.
+## Installation
+To install this app, follow these steps:
+1. Clone the repository: `https://github.com/Jerald-Joyson/Quiz-App-in-Flutter-Fiebase.git`
+2. Open the project in your preferred IDE (e.g., VS Code, Android Studio).
+3. Run `flutter pub get` to install the dependencies.
+4. Build and run the app on an emulator or physical device.
 
-A few resources to get you started if this is your first Flutter project:
+## Usage
+After launching the app, users can select a quiz category, answer questions, and receive their score at the end.
 
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
+## Features
+- Multiple quiz categories
+- Timer for each question
+- Score tracking
+- Responsive design for various screen sizes
 
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+## Contributing
+Contributions are welcome! Please read the [CONTRIBUTING.md](CONTRIBUTING.md) file for details on how to submit pull requests.
+
+## License
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+
