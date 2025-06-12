@@ -4,6 +4,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:myapp/model/category.dart';
+import 'package:myapp/theme/theme.dart';
 
 class AddCategoryScreen extends StatefulWidget {
   final Category? category;
@@ -119,13 +120,117 @@ class _AddCategoryScreenState extends State<AddCategoryScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text(widget.category != null ? 'Edit Category' : 'Add Category'),
-      ),
-      body: Padding(
-        padding: const EdgeInsets.all(16.0),
-        child: Form(key: _formKey, child: Column(children: [])),
+    return WillPopScope(
+      onWillPop: _onWillPop,
+      child: Scaffold(
+        appBar: AppBar(
+          title: Text(
+            widget.category != null ? 'Edit Category' : 'Add Category',
+            style: TextStyle(fontWeight: FontWeight.bold),
+          ),
+        ),
+        body: SingleChildScrollView(
+          child: Padding(
+            padding: const EdgeInsets.all(20),
+            child: Form(
+              key: _formKey,
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    "Category Details",
+                    style: TextStyle(
+                      fontSize: 20,
+                      fontWeight: FontWeight.bold,
+                      color: AppTheme.textPrimryColor,
+                    ),
+                  ),
+                  SizedBox(height: 8),
+
+                  Text(
+                    "Create new category for organizing your quizes.",
+                    style: TextStyle(
+                      fontSize: 14,
+                      color: AppTheme.textSecondaryColor,
+                    ),
+                  ),
+                  SizedBox(height: 24),
+                  TextFormField(
+                    controller: _nameController,
+                    decoration: InputDecoration(
+                      contentPadding: EdgeInsets.symmetric(vertical: 20),
+                      fillColor: Colors.white,
+                      labelText: 'Category Name',
+                      hintText: "Enter category name",
+                      prefixIcon: Icon(
+                        Icons.category_rounded,
+                        color: AppTheme.primaryColor,
+                      ),
+                    ),
+                    validator: (value) {
+                      if (value == null || value.isEmpty) {
+                        return 'Enter category name';
+                      }
+                      return null;
+                    },
+                    textInputAction: TextInputAction.next,
+                  ),
+                  SizedBox(height: 20),
+                  TextFormField(
+                    controller: _descriptionController,
+                    decoration: InputDecoration(
+                      fillColor: Colors.white,
+                      labelText: 'Description',
+                      hintText: "Enter category description",
+                      prefixIcon: Icon(
+                        Icons.description_rounded,
+                        color: AppTheme.primaryColor,
+                      ),
+                      alignLabelWithHint: true,
+                    ),
+                    maxLines: 3,
+                    validator: (value) {
+                      if (value == null || value.isEmpty) {
+                        return 'Please enter description';
+                      }
+                      return null;
+                    },
+                    textInputAction: TextInputAction.next,
+                  ),
+                  SizedBox(height: 32),
+                  SizedBox(
+                    width: double.infinity,
+                    height: 50,
+                    child: ElevatedButton(
+                      onPressed: _isLoading ? null : _saveCategory,
+                      child:
+                          _isLoading
+                              ? SizedBox(
+                                height: 20,
+                                width: 20,
+                                child: CircularProgressIndicator(
+                                  valueColor: AlwaysStoppedAnimation<Color>(
+                                    Colors.white,
+                                  ),
+                                  strokeWidth: 2,
+                                ),
+                              )
+                              : Text(
+                                widget.category != null
+                                    ? 'Update Category'
+                                    : 'Add Category',
+                                style: TextStyle(
+                                  fontSize: 16,
+                                  fontWeight: FontWeight.bold,
+                                ),
+                              ),
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ),
+        ),
       ),
     );
   }
