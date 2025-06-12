@@ -2,12 +2,14 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:myapp/model/category.dart';
 import 'package:myapp/model/quiz.dart';
+import 'package:myapp/view/admin/add_quiz_screen.dart';
 
 import '../../theme/theme.dart';
 
 class ManageQuizesScreen extends StatefulWidget {
   final String? categoryId;
-  const ManageQuizesScreen({super.key, this.categoryId});
+  final String? categoryName;
+  const ManageQuizesScreen({super.key, this.categoryId, this.categoryName});
 
   @override
   State<ManageQuizesScreen> createState() => _ManageQuizesScreenState();
@@ -108,10 +110,16 @@ class _ManageQuizesScreenState extends State<ManageQuizesScreen> {
         actions: [
           IconButton(
             onPressed: () {
-              // Navigator.push(
-              //   context,
-              //   MaterialPageRoute(builder: (context) => AddQuizesScreen(categoryId: widget.categoryId)),
-              // );
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder:
+                      (context) => AddQuizScreen(
+                        categoryId: widget.categoryId,
+                        categoryName: widget.categoryName,
+                      ),
+                ),
+              );
             },
             icon: Icon(Icons.add_circle_outline, color: AppTheme.primaryColor),
           ),
@@ -225,15 +233,16 @@ class _ManageQuizesScreenState extends State<ManageQuizesScreen> {
                         SizedBox(height: 8),
                         ElevatedButton(
                           onPressed: () {
-                            // Navigator.push(
-                            //   context,
-                            //   MaterialPageRoute(
-                            //     builder:
-                            //         (context) => AddQuizesScreen(
-                            //           categoryId: widget.categoryId,
-                            //         ),
-                            //   ),
-                            // );
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder:
+                                    (context) => AddQuizScreen(
+                                      categoryId: widget.categoryId,
+                                      categoryName: widget.categoryName,
+                                    ),
+                              ),
+                            );
                           },
                           child: Text("Add Quiz"),
                         ),
@@ -340,7 +349,6 @@ class _ManageQuizesScreenState extends State<ManageQuizesScreen> {
         builder:
             (context) => AlertDialog(
               title: Text("Delete Quiz"),
-              // Suggested code may be subject to a license. Learn more: ~LicenseLog:2688678861.
               content: Text("Are you sure you want to delete this quiz?"),
               actions: [
                 TextButton(
