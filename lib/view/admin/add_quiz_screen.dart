@@ -167,6 +167,12 @@ class _AddQuizScreenState extends State<AddQuizScreen> {
               : 'Add Quiz',
           style: TextStyle(fontWeight: FontWeight.bold),
         ),
+        actions: [
+          IconButton(
+            onPressed: _isLoading ? null : _saveQuiz,
+            icon: Icon(Icons.save, color: AppTheme.primaryColor),
+          ),
+        ],
       ),
       body: Form(
         key: _formKey,
@@ -361,7 +367,7 @@ class _AddQuizScreenState extends State<AddQuizScreen> {
                                   labelText: 'Question Title',
                                   hintText: "Enter question",
                                   prefixIcon: Icon(
-                                    Icons.question_mark,
+                                    Icons.question_answer,
                                     color: AppTheme.primaryColor,
                                   ),
                                 ),
@@ -384,8 +390,10 @@ class _AddQuizScreenState extends State<AddQuizScreen> {
                                           groupValue:
                                               question.correctOptionIndex,
                                           onChanged: (value) {
-                                            question.correctOptionIndex =
-                                                value!;
+                                            setState(() {
+                                              question.correctOptionIndex =
+                                                  value!;
+                                            });
                                           },
                                         ),
                                         Expanded(

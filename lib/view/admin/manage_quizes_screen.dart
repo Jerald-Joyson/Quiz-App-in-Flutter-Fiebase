@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:myapp/model/category.dart';
 import 'package:myapp/model/quiz.dart';
 import 'package:myapp/view/admin/add_quiz_screen.dart';
+import 'package:myapp/view/admin/edit_quiz_screen.dart';
 
 import '../../theme/theme.dart';
 
@@ -342,7 +343,10 @@ class _ManageQuizesScreenState extends State<ManageQuizesScreen> {
     Quiz quiz,
   ) async {
     if (action == "edit") {
-      // Navigator.push(context, MaterialPageRoute(builder: (context) => AddQuizScreen(quiz: quiz,)));
+      Navigator.push(
+        context,
+        MaterialPageRoute(builder: (context) => EditQuizScreen(quiz: quiz)),
+      );
     } else if (action == "delete") {
       final confirm = await showDialog<bool>(
         context: context,
