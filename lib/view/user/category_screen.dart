@@ -1,8 +1,12 @@
+import 'dart:ffi';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_animate/flutter_animate.dart';
 import 'package:myapp/model/category.dart';
 import 'package:myapp/model/quiz.dart';
 import 'package:myapp/theme/theme.dart';
+import 'package:myapp/view/user/quiz_play_screen.dart';
 
 class CategoryScreen extends StatefulWidget {
   final Category category;
@@ -130,8 +134,101 @@ class _CategoryScreenState extends State<CategoryScreen> {
                       ),
                     ),
                   ),
+                  SliverToBoxAdapter(
+                    child: Padding(
+                      padding: EdgeInsets.all(16),
+                      child: ListView.builder(
+                        shrinkWrap: true,
+                        physics: NeverScrollableScrollPhysics(),
+                        itemCount: _quizzes.length,
+                        itemBuilder: (context, index) {
+                          final quiz = _quizzes[index];
+                          return _buildQuizCard(quiz, index);
+                        },
+                      ),
+                    ),
+                  ),
                 ],
               ),
     );
+  }
+
+  Widget _buildQuizCard(Quiz quiz, int index) {
+    return Card(
+          margin: EdgeInsets.only(bottom: 16),
+          elevation: 4,
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadiusGeometry.circular(16),
+          ),
+          child: InkWell(
+            borderRadius: BorderRadius.circular(16),
+            onTap: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => QuizPlayScreen(quiz: quiz)),
+              );
+            },
+            child: Padding(
+              padding: EdgeInsets.all(16),
+              child: Row(
+                children: [
+                  Container(
+                    padding: EdgeInsets.all(12),
+                    decoration: BoxDecoration(
+                      color: AppTheme.primaryColor.withOpacity(0.1),
+                      borderRadius: BorderRadius.circular(12),
+                    ),
+                    child: Icon(
+                      Icons.quiz_rounded,
+                      color: AppTheme.primaryColor,
+                      size: 32,
+                    ),
+                  ),
+                  SizedBox(width: 16),
+                  Expanded(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          quiz.title,
+                          style: TextStyle(
+                            fontSize: 18,
+                            color: AppTheme.textPrimryColor,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                        Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            SizedBox(height: 8),
+                            Row(
+                              children: [
+                                Icon(Icons.question_answer_outlined, size: 16),
+                                SizedBox(width: 4),
+                                Text('${quiz.questions.length} Questions'),
+                                SizedBox(width: 16),
+                                Icon(Icons.timer_outlined, size: 16),
+                                SizedBox(width: 4),
+                                Text('${quiz.timtLimit} mins'),
+                              ],
+                            ),
+                          ],
+                        ),
+                      ],
+                    ),
+                  ),
+                  Icon(
+                    Icons.chevron_right_outlined,
+                    size: 35,
+                    color: AppTheme.primaryColor,
+                  ),
+                ],
+              ),
+            ),
+          ),
+        )
+        .animate(delay: Duration(milliseconds: 100 * index))
+        .slideX(begin: 0.5, end: 0, duration: Duration(milliseconds: 300))
+        .fadeIn();
   }
 }

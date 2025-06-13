@@ -77,7 +77,7 @@ class _HomeScreenState extends State<HomeScreen> {
             expandedHeight: 225,
             pinned: true,
             floating: true,
-            centerTitle: true,
+            centerTitle: false,
             backgroundColor: AppTheme.primaryColor,
             elevation: 0,
             shape: RoundedRectangleBorder(
