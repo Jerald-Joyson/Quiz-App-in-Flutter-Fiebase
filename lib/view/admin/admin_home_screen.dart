@@ -1,8 +1,5 @@
-import 'dart:ffi';
-
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'package:myapp/model/category.dart';
 import 'package:myapp/theme/theme.dart';
 
 import 'manage_categories_screen.dart';
