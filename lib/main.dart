@@ -21,7 +21,7 @@ class MyApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       theme: AppTheme.theme,
       title: "Quiz App",
-      home: HomeScreen(),
+      home: AdminHomeScreen(),
     );
   }
 }
