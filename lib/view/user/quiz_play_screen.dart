@@ -4,6 +4,7 @@ import 'package:flutter_animate/flutter_animate.dart';
 import 'package:myapp/model/question.dart';
 import 'package:myapp/model/quiz.dart';
 import 'package:myapp/theme/theme.dart';
+import 'package:myapp/view/user/quiz_result_screen.dart';
 
 class QuizPlayScreen extends StatefulWidget {
   final Quiz quiz;
@@ -81,17 +82,18 @@ class _QuizPlayScreenState extends State<QuizPlayScreen>
         duration: Duration(seconds: 2),
       ),
     );
-    // Navigator.pushReplacement(
-    //   context,
-    //   MaterialPageRoute(
-    //     builder: QuizResultScreen(
-    //       quiz: widget.quiz,
-    //       totalQuestions: widget.quiz.questions.length,
-    //       correctAnswers: correctAnswers,
-    //       selectedAnswers: _selectedAnswers,
-    //     ),
-    //   ),
-    // );
+    Navigator.pushReplacement(
+      context,
+      MaterialPageRoute(
+        builder:
+            (context) => QuizResultScreen(
+              quiz: widget.quiz,
+              totalQuestions: widget.quiz.questions.length,
+              correctAnswers: correctAnswers,
+              selectedAnswers: _selectedAnswers,
+            ),
+      ),
+    );
   }
 
   int _calculateScore() {
@@ -233,6 +235,7 @@ class _QuizPlayScreenState extends State<QuizPlayScreen>
         ),
       ),
       floatingActionButton: _buildFloatingActionButton(),
+      floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
     );
   }
 
@@ -362,19 +365,23 @@ class _QuizPlayScreenState extends State<QuizPlayScreen>
   Widget _buildFloatingActionButton() {
     final isLastQuestion =
         _currentQuestionIndex == widget.quiz.questions.length - 1;
-    return FloatingActionButton.extended(
-      onPressed:
-          _selectedAnswers[_currentQuestionIndex] != null
-              ? _nextQuestion
-              : null,
-      label: Text(
-        isLastQuestion ? 'Finish Quiz' : 'Next Question',
-        style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
+    return Container(
+      margin: EdgeInsets.symmetric(horizontal: 32),
+      width: double.infinity,
+      child: FloatingActionButton.extended(
+        onPressed:
+            _selectedAnswers[_currentQuestionIndex] != null
+                ? _nextQuestion
+                : null,
+        label: Text(
+          isLastQuestion ? 'Finish Quiz' : 'Next Question',
+          style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
+        ),
+        backgroundColor:
+            _selectedAnswers[_currentQuestionIndex] != null
+                ? AppTheme.primaryColor
+                : Colors.grey,
       ),
-      backgroundColor:
-          _selectedAnswers[_currentQuestionIndex] != null
-              ? AppTheme.primaryColor
-              : Colors.grey,
     );
   }
 }
